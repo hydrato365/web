@@ -8,13 +8,20 @@ import { NavIcon } from "@/components/layout/nav-icon";
 
 import { useTranslations } from "next-intl";
 
-const navItems = [
+type NavItem = {
+  href: string;
+  key: "home" | "search" | "tuned" | "messages" | "profile";
+  icon?: string;
+  isAvatar?: boolean;
+};
+
+const navItems: readonly NavItem[] = [
   { href: "/", key: "home", icon: "home" },
   { href: "/search", key: "search", icon: "search" },
   { href: "/subscriptions", key: "tuned", icon: "tuned" },
   { href: "/messages", key: "messages", icon: "messages" },
   { href: "/profile", key: "profile", isAvatar: true },
-] as const;
+];
 
 export function MobileBottomNav() {
   const t = useTranslations("Nav");

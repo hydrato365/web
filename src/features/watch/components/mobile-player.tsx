@@ -20,7 +20,7 @@ interface MobilePlayerProps {
     description?: string;
     created_at?: string;
   } | null;
-  activeTab: "upnext" | "comments";
+  activeTab: "upnext" | "description" | "comments";
   isMobileInputFocused: boolean;
   isPlaying: boolean;
   setIsPlaying: (val: boolean) => void;
@@ -329,10 +329,11 @@ export function MobilePlayer({
     const handleFullscreenChange = () => {
       const isFS = !!document.fullscreenElement;
       setIsFullscreen(isFS);
-      if (isFS && screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock("landscape").catch(() => {});
-      } else if (!isFS && screen.orientation && screen.orientation.unlock) {
-        screen.orientation.unlock();
+      const orientation = screen.orientation as any;
+      if (isFS && orientation && typeof orientation.lock === "function") {
+        orientation.lock("landscape").catch(() => {});
+      } else if (!isFS && orientation && typeof orientation.unlock === "function") {
+        orientation.unlock();
       }
     };
     document.addEventListener("fullscreenchange", handleFullscreenChange);
